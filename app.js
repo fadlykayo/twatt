@@ -9,31 +9,9 @@ var index = require('./routes/index')
 var users = require('./routes/users')
 var callback = require('./routes/api/twitter/callback')
 var login = require('./routes/api/twitter/login')
+var search = require('./routes/api/twitter/search')
 
 var app = express()
-
-// twitter
-var Twitter = require('twitter')
-var configAPI = require('./config.json')
-
-var client = new Twitter({
-  consumer_key: configAPI.API_key,
-  consumer_secret: configAPI.API_secret,
-  access_token_key: configAPI.Access_token,
-  access_token_secret: configAPI.Access_token_secret
-})
-
-// search-test
-var express = require('express')
-var router = express.Router()
-
-router.get('/', function (req, res, next) {
-  var searchQuery = req.query.q
-  client.get('api/twitter/search', {q: searchQuery}, function (error, tweets, response) {
-    
-    console.log(tweets)
-  })
-})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -51,6 +29,7 @@ app.use('/', index)
 app.use('/users', users)
 app.use('/api/twitter/callback', callback)
 app.use('/api/twitter/login', login)
+app.use('/api/twitter/search', search)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
